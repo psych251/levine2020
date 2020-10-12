@@ -11,7 +11,7 @@
 
 <meta name="author" content="Sydney Levine (smlevine@mit.edu), Max Kleiman-Weiner, Laura Schulz, Joshua Tenenbaum, &amp; Fiery Cushman" />
 
-<meta name="date" content="2020-10-04" />
+<meta name="date" content="2020-10-11" />
 
 <title>Replication of Study 1 by Levine et al. (2020, PNAS)</title>
 
@@ -1531,7 +1531,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Replication of Study 1 by Levine et al. (2020, PNAS)</h1>
 <h4 class="author">Sydney Levine (<a href="mailto:smlevine@mit.edu" class="email">smlevine@mit.edu</a>), Max Kleiman-Weiner, Laura Schulz, Joshua Tenenbaum, &amp; Fiery Cushman</h4>
-<h4 class="date">October 04, 2020</h4>
+<h4 class="date">October 11, 2020</h4>
 
 </div>
 
@@ -1539,35 +1539,47 @@ div.tocify {
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>Levine et al. showed in their paper “The logic of universalization guides moral judgement” that people (both adults and children) sometimes make moral judgements by considering the hypothetical situation “what if everyone did that?” – a process that they call <em>universalization</em>. They contrast a computational model of universalization with other models of moral judgement in a variety of experiments that capture a kind of collective action “threshold problem”. In this report, I aim to replicate Study 2a in which they contrast universalizaion with rule-based, outcome-based, and pessimistic outcome models of moral judgement.</p>
-<p>I think this study is very relevant to my interests in social responsibility and the use of counterfactuals in understanding and evaluating each other’s actions. The original (preregistered) study was conducted via MTurk and all the stimuli are given in <a href="https://github.com/psych251/levine2020/blob/master/original_paper/levine2020_universalization_supplement.pdf">supplemental materials</a>, so I will be aiming to replicate it exactly. I will be trying to recreate the left half of Figure 4 from the paper. The main challenge will be coding the analysis since I’ve almost never analyzed data in R.</p>
+<p>I think this study is very relevant to my interests in social responsibility and the use of counterfactuals in understanding and evaluating each other’s actions. The original (preregistered) study was conducted via MTurk and all the stimuli are given in <a href="https://github.com/psych251/levine2020/blob/master/original_paper/levine2020_universalization_supplement.pdf">supplemental materials</a>, so I will be aiming to replicate it exactly. I will be trying to recreate the left half of Figure 4 from the paper (and possibly also Figure S5 from the supplemental), and running the same statistical analyses. The main challenge will be coding the analysis since I’ve almost never analyzed data in R.</p>
 <p>Links to <a href="https://github.com/psych251/levine2020">this repo</a> and <a href="https://github.com/psych251/levine2020/blob/master/original_paper/levine2020_universalization.pdf">the original paper</a>.</p>
 </div>
 <div id="methods" class="section level2">
 <h2>Methods</h2>
 <div id="power-analysis" class="section level3">
 <h3>Power Analysis</h3>
-<p>Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size. Considerations of feasibility for selecting planned sample size.</p>
+<!-- Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size.  Considerations of feasibility for selecting planned sample size. -->
 </div>
 <div id="planned-sample" class="section level3">
 <h3>Planned Sample</h3>
-<p>Planned sample size and/or termination rule, sampling frame, known demographics if any, preselection rules if any.</p>
+<p>Like the original study, participants will be recruited from MTurk. A smaller sample will be recruited due to financial constraints, but it will still be enough to report a result (if significant) based on a power analysis (TBD).</p>
 </div>
-<div id="materials" class="section level3">
-<h3>Materials</h3>
-<p>All materials - can quote directly from original article - just put the text in quotations and note that this was followed precisely. Or, quote directly and just point out exceptions to what was described in the original article.</p>
-</div>
-<div id="procedure" class="section level3">
-<h3>Procedure</h3>
-<p>Can quote directly from original article - just put the text in quotations and note that this was followed precisely. Or, quote directly and just point out exceptions to what was described in the original article.</p>
+<div id="materials-and-procedure" class="section level3">
+<h3>Materials and Procedure</h3>
+<p>Participants will be assigned to either the High Interest or the Low Interest condition and read a story about fishing as follows:</p>
+<blockquote>
+<p>Twenty vacationers currently fish in a sustainable way, but then a new fishing hook becomes available that allows each vacationer to catch many more fish. If fewer than three vacationers start using the hook, there will be no negative consequences; if more than seven vacationers start using the hook, then there is guaranteed to be a total collapse of the fish population by summer’s end. Thus, the harm threshold occurs at three to seven interested parties. The protagonist of this vignette, John, is interested in using the new hook. Participants are asked if doing so would be morally acceptable.</p>
+</blockquote>
+<p>The exact text shown to participants is provided in the <a href="https://github.com/psych251/levine2020/blob/master/original_paper/levine2020_universalization_supplement.pdf">supplemental materials</a> with the instructions on lines 97-100, comprehension questions (exclusion crteria) on lines 97-96, the story itself on lines 174-218, and experiment questions on lines 134-145. These will all be shown in the same order and same format as the original study. The only difference is that five different stories were used in the original study while only one is selected here due to financial constraints, but this one story will still be an exact replication and the same effects will be tested.</p>
 </div>
 <div id="analysis-plan" class="section level3">
 <h3>Analysis Plan</h3>
-<p>Can also quote directly, though it is less often spelled out effectively for an analysis strategy section. The key is to report an analysis strategy that is as close to the original - data cleaning rules, data exclusion rules, covariates, etc. - as possible.</p>
-<p><strong>Clarify key analysis of interest here</strong> You can also pre-specify additional analyses you plan to do.</p>
+<p>Data will be filtered using the same exclusion crteria as the original study: participants must correctly answer some comprehension questions in order to be included. After filtering the data, I’ll average participants’ responses (morally acceptability ratings) within the High Interest and Low Interest conditions, and compare the moral acceptability judgements between the two conditions by recreating the left half of Figure 4 from the paper. I’ll determine whether the difference is significant with the same statistical test as the original study:</p>
+<blockquote>
+<p>Using a chi-squared analysis, we will see if subjects in the Low Interest condition are significantly more likely to say that the action is morally acceptable compared to subjects in the High Interest condition.</p>
+</blockquote>
+<p>Lastly, like the original study, I’ll investigate whether participants’ beliefs about rules or knowledge might explain their moral judgements instead. These were measured in the control questions.</p>
+<p>For the “rule” question:</p>
+<blockquote>
+<p>There were only two subjects [out of 606 total] who answered that there was a rule on the lake forbidding the use of the hook. Judgments about the presence of a rule, therefore, do not explain subjects’ moral permissibility judgments.</p>
+</blockquote>
+<p>For the “knowledge” question:</p>
+<blockquote>
+<p>We analyzed the knowledge question by looking at what proportion of subjects in each condition judged that no one would find out about John using the new hook (as opposed to thinking that 1 or more people would find out about it). There is a small but significant difference across the conditions … (χ2(1) = 5.41, p = .020, two-tailed, V_Cramer = .09, CI95%[.01, .17], n = 608) … we conducted a logistic regression to see if answers to the knowledge question could fully explain our finding (as we indicated we would do in the preregistration document), and, in fact, they could not. Once knowledge is added into the model along with condition, there is still a highly significant effect of condition.</p>
+</blockquote>
+<p>So for these two questions, first a chi-squared analysis will be used to determine whether there is a significant difference in participants’ answers by condition. If there is none, like for the rule question in the original study, then I can conclude that factor cannot explain people’s moral acceptability judgements. If there <em>is</em> a significant difference, like for the knowledge question, then logistic regression with and without that factor can be conducted and compared to determine whether condition is still the main predictor of moral acceptability. If the same results are found in this replication as in the original study, then I should be able to recreate Figure S5 from the supplemental.</p>
 </div>
 <div id="differences-from-original-study" class="section level3">
 <h3>Differences from Original Study</h3>
-<p>Explicitly describe known differences in sample, setting, procedure, and analysis plan from original study. The goal, of course, is to minimize those differences, but differences will inevitably occur. Also, note whether such differences are anticipated to make a difference based on claims in the original article or subsequent published research on the conditions for obtaining the effect.</p>
+<p>The recruiting process, materials, and experimental procedure used in this replication report will be the same as those in the original study. The only difference is that it will effectively be a replication at a smaller scale: less participants will be recruited and only one of five stories will be used. However, given that (1) the authors of the original study still found a significant result within each story, (2) their full model found no effect of which story was used, and (3) their combined results were very significant (p&lt;0.001), I don’t anticipate that this difference will make a large impact based on the claims in the original paper.</p>
 </div>
 <div id="methods-addendum-post-data-collection" class="section level3">
 <h3>Methods Addendum (Post Data Collection)</h3>
@@ -1587,15 +1599,29 @@ div.tocify {
 <div id="data-preparation" class="section level3">
 <h3>Data preparation</h3>
 <p>Data preparation following the analysis plan.</p>
+<pre class="r"><code>###Data Preparation
+
+####Load Relevant Libraries and Functions
+# library(dplyr)
+# library(ggstatsplot)   # extension of ggplot2 with stats features
+
+####Import data
+
+#### Data exclusion / filtering
+# Q1: include if answer is 19 &amp;&amp; condition is high, or if answer is 0 &amp;&amp; condition is low
+# Q2: include if answer is 19, 20, or 21
+# Q3: include if answer is 0
+# Q4: include if answer is C (multiple choice A, B, or C)
+
+#### Prepare data for analysis - create columns etc.</code></pre>
 </div>
 <div id="confirmatory-analysis" class="section level3">
 <h3>Confirmatory analysis</h3>
-<p>The analyses as specified in the analysis plan.</p>
-<p><em>Side-by-side graph with original graph is ideal here</em></p>
-</div>
-<div id="exploratory-analyses" class="section level3">
-<h3>Exploratory analyses</h3>
-<p>Any follow-up analyses desired (not required).</p>
+<ul>
+<li>Side-by-side comparison of Figure 4 from paper</li>
+<li>Results of chi-squared analysis</li>
+<li>Results of analysis on rule and knowledge questions, and side-by-side comparison of Figure S5 from supplemental if necessary</li>
+</ul>
 </div>
 </div>
 <div id="discussion" class="section level2">
