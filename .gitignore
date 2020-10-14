@@ -20,6 +20,9 @@
 # RStudio files
 .Rproj.user/
 
+# RPubs files
+*rsconnect/*
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
