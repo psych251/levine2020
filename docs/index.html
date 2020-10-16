@@ -82,8 +82,8 @@
             '<i>No one else is going to use the new hooks. Under these circumstances, ' +
             'it’s OK for me to use the new hooks and catch more fish.</i></p>';
     }
-    var scroll_story = '<p style="color:SlateBlue;"> The story is shown again for ' +
-        'reference. </i> </p> <div style="height:300px; border: 2px solid SlateBlue; ' +
+    var scroll_story = '<p style="color:DodgerBlue;"> The story is shown again for ' +
+        'reference. </i> </p> <div style="height:300px; border: 2px solid DodgerBlue; ' +
         'padding: 1em; overflow: auto;"><p>' + story + '</p></div>';
 
     // display story
@@ -175,17 +175,30 @@
                 required: true,
                 name: 'know'
             }
+        ]
+    });
+
+    // feedback form
+    timeline.push({
+        type: 'survey-text',
+        questions: [
+            {
+                prompt: 'Please leave any comments here.',
+                name: 'feedback',
+                rows: 4,
+                columns: 60
+            }
         ],
         button_label: 'Finish'
     });
-    
+
     // start the experiment
     jsPsych.init({
         timeline: timeline,
         on_finish: function() {
             //jsPsych.data.displayData();
             $('body').html('<div style="margin: auto;"> <p> Thank you for ' +
-                'participating in this experiment! </p>');
+                'participat/ing in this experiment! </p>');
         }
     });
 
