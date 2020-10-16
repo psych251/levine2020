@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
         <title> Replication of Levine et al. (2020) </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src='jspsych/jspsych.js'></script>
         <script src="jspsych/plugins/jspsych-instructions.js"></script>
         <script src='jspsych/plugins/jspsych-html-keyboard-response.js'></script>
@@ -81,9 +82,9 @@
             '<i>No one else is going to use the new hooks. Under these circumstances, ' +
             'it’s OK for me to use the new hooks and catch more fish.</i></p>';
     }
-    var scroll_story = '<p> <b><i> The story is shown below for reference. </i> </b> </p>' +
-        '<div style="height:300px; border: 1px solid #ccc; overflow: auto;"><p>' +
-         story + '</p></div>';
+    var scroll_story = '<p style="color:SlateBlue;"> The story is shown below for ' +
+        'reference. </i> </p> <div style="height:300px; border: 2px solid SlateBlue; ' +
+        'padding: 1em; overflow: auto;"><p>' + story + '</p></div>';
 
     // display story
     timeline.push({
@@ -174,14 +175,17 @@
                 required: true,
                 name: 'know'
             }
-        ]
+        ],
+        button_label: 'Finish'
     });
     
     // start the experiment
     jsPsych.init({
         timeline: timeline,
         on_finish: function() {
-            jsPsych.data.displayData();
+            //jsPsych.data.displayData();
+            $('body').html('<div style="margin: auto;"> <p> Thank you for ' +
+                'participating in this experiment! </p>');
         }
     });
 
