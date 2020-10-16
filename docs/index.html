@@ -93,6 +93,9 @@
         prompt: 'Press any key to continue.'
     });
 
+    // prepare data collection
+    var data = {};
+
     // comprehension questions (exclusion criteria)
     timeline.push({
         type: 'survey-text',
@@ -120,6 +123,12 @@
                 name: 'exclude3'
             }
         ],
+        // on_finish: function() {
+        //     data['exclude1'] = $("#jspsych-survey-text-response-0").val();
+        //     data['exclude2'] = $('input[data-name="exclude2"]').val();
+        //     data['exclude3'] = $('input[data-name="exclude3"]').val();
+        //     console.log(data);
+        // }
     });
     timeline.push({
         type: 'survey-multi-choice',
@@ -196,9 +205,33 @@
     jsPsych.init({
         timeline: timeline,
         on_finish: function() {
+            var all_data = jsPsych.data.get();
+            var turkInfo = jsPsych.turk.turkInfo();
+            // var data = all_data.filterCustom(
+            //     function(trial) {return trial.trial_index > 1})
+            //                    .ignore('rt')
+            //                    .ignore('stimulus')
+            //                    .ignore('key_press')
+            //                    .ignore('trial_type')
+            //                    .ignore('time_elapsed')
+            //                    .ignore('internal_node_id');
+            // console.log(data.csv());
+            var data = {
+                workerID: turkInfo.workerId,
+                assignmentID: turkInfo.assignmentId,
+                hitID: turkInfo.hitId,
+                condition: condition,
+                exclude123: all_data.values()[2].responses,
+                exclude4: all_data.values()[3].responses,
+                acceptability: all_data.values()[4].responses,
+                rule: all_data.values()[5].responses,
+                know: all_data.values()[6].responses,
+                feedback: all_data.values()[7].responses,
+            };
+            jsPsych.turk.submitToTurk(data);
             //jsPsych.data.displayData();
             $('body').html('<div style="margin: auto;"> <p> Thank you for ' +
-                'participat/ing in this experiment! </p>');
+                'participating in this experiment! </p>');
         }
     });
 
