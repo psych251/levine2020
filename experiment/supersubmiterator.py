@@ -3,6 +3,7 @@
 import json, argparse, os, csv
 import boto3
 import xmltodict
+from datetime import datetime
 
 
 MTURK_SANDBOX_URL = "https://mturk-requester-sandbox.us-east-1.amazonaws.com"
@@ -18,7 +19,7 @@ except:
 
 def main():
     parser = argparse.ArgumentParser(description='Interface with MTurk.')
-    parser.add_argument("subcommand", choices=['posthit', 'getresults', 'assignqualification', 'paybonus'],
+    parser.add_argument("subcommand", choices=['posthit', 'deletehit', 'getresults', 'assignqualification', 'paybonus'],
         type=str, action="store",
         help="choose a specific subcommand.")
     parser.add_argument("nameofexperimentfiles", metavar="label", type=str, nargs="+",
@@ -26,8 +27,9 @@ def main():
         "experiment you want to work with. each experiment has a unique label. " +
         "this will be the beginning of the name of the config file (everything " +
         "before the dot). [label].config.")
-    parser.add_argument("-qualification_id", metavar="qualificationid", type=str,
+    parser.add_argument("--qualification-id", metavar="qualificationid", type=str,
       default = None)
+    parser.add_argument("--hit-id", type=str, default=None)
 
     args = parser.parse_args()
 
@@ -38,11 +40,14 @@ def main():
         if subcommand == "posthit":
             live_hit, hit_configs = parse_config(label)
             post_hit(label, hit_configs, live_hit)
+        elif subcommand == "deletehit":
+            live_hit, _ = parse_config(label)
+            delete_hit(label, live_hit, args.hit_id)
         elif subcommand == "getresults":
             live_hit, _ = parse_config(label)
             results, results_types = get_results(label, live_hit)
-            if len(results["trials"])  > 0:
-              write_results(label, results, results_types)
+            # if len(results["trials"])  > 0:
+            write_results(label, results, results_types)
         elif subcommand == "assignqualification":
             live_hit, _ = parse_config(label)
             assign_qualification(label, live_hit, args.qualification_id)
@@ -85,6 +90,28 @@ def post_hit(experiment_label, hit_configs, live_hit=True):
       print("Preview: {}".format(preview_url(new_hit['HIT']['HITGroupId'], live_hit=live_hit)))
       print("-" * 80)
       print(new_hit['HIT']['HITId'], new_hit['HIT']["MaxAssignments"], file=hit_id_file)
+
+def delete_hit(experiment_label, live_hit, hit_id):
+    hit_id_filename = experiment_label + ".hits"
+    mturk = mturk_client(live_hit = live_hit)
+    status = mturk.get_hit(HITId=hit_id)['HIT']['HITStatus']
+    if status == "Assignable":
+        response = mturk.update_expiration_for_hit(
+            HITId = hit_id,
+            ExpireAt = datetime.now()
+        )
+    try:
+        mturk.delete_hit(HITId=hit_id)
+    except:
+        print('Could not delete hit', hit_id)
+    else:
+        print('Deleted hit', hit_id)
+        with open(hit_id_filename, 'r') as hit_id_file:
+            lines = hit_id_file.readlines()
+        with open(hit_id_filename, 'w') as hit_id_file:
+            for line in lines:
+                if not line.strip('\n').startswith(hit_id):
+                    hit_id_file.write(line)
 
 def parse_answer(json_str):
   try:
@@ -152,11 +179,14 @@ def get_results(experiment_label, live_hit=True):
 
           d = add_workerid(worker_id, "assignments", {"assignmentid": assignment_id})
           results["assignments"].append(d)
-          trials = add_workerid(worker_id, "trials", trials)
-          for t in trials:
-             for col in additional_trial_cols:
-               t[col] = additional_trial_cols[col]
-          results["trials"].extend(trials)
+          try:
+            trials = add_workerid(worker_id, "trials", answer_obj)
+            for t in trials:
+               for col in additional_trial_cols:
+                 t[col] = additional_trial_cols[col]
+            results["trials"].extend(trials)
+          except:
+            pass   # skip if no trials field
           
   return results, result_types   
  
