@@ -207,15 +207,6 @@
         on_finish: function() {
             var all_data = jsPsych.data.get();
             var turkInfo = jsPsych.turk.turkInfo();
-            // var data = all_data.filterCustom(
-            //     function(trial) {return trial.trial_index > 1})
-            //                    .ignore('rt')
-            //                    .ignore('stimulus')
-            //                    .ignore('key_press')
-            //                    .ignore('trial_type')
-            //                    .ignore('time_elapsed')
-            //                    .ignore('internal_node_id');
-            // console.log(data.csv());
             var data = {
                 workerID: turkInfo.workerId,
                 assignmentID: turkInfo.assignmentId,
@@ -229,9 +220,9 @@
                 feedback: all_data.values()[7].responses,
             };
             jsPsych.turk.submitToTurk(data);
-            //jsPsych.data.displayData();
             $('body').html('<div style="margin: auto;"> <p> Thank you for ' +
                 'participating in this experiment! </p>');
+            setTimeout(function(), 2000);
         }
     });
 
