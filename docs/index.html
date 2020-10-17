@@ -211,7 +211,7 @@
                 workerID: turkInfo.workerId,
                 assignmentID: turkInfo.assignmentId,
                 hitID: turkInfo.hitId,
-                condition: condition,
+                condition: '{"condition":"'+condition+'"}',
                 exclude123: all_data.values()[2].responses,
                 exclude4: all_data.values()[3].responses,
                 acceptability: all_data.values()[4].responses,
@@ -219,6 +219,7 @@
                 know: all_data.values()[6].responses,
                 feedback: all_data.values()[7].responses,
             };
+            console.log(data);
             jsPsych.turk.submitToTurk(data);
             $('body').html('<div style="margin: auto;"> <p> Thank you for ' +
                 'participating in this experiment! </p>');
