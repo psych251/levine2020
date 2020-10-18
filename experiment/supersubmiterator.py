@@ -19,7 +19,7 @@ except:
 
 def main():
     parser = argparse.ArgumentParser(description='Interface with MTurk.')
-    parser.add_argument("subcommand", choices=['posthit', 'deletehit', 'getresults', 'assignqualification', 'paybonus'],
+    parser.add_argument("subcommand", choices=['posthit', 'deletehit', 'approveall', 'getresults', 'assignqualification', 'paybonus'],
         type=str, action="store",
         help="choose a specific subcommand.")
     parser.add_argument("nameofexperimentfiles", metavar="label", type=str, nargs="+",
@@ -43,6 +43,9 @@ def main():
         elif subcommand == "deletehit":
             live_hit, _ = parse_config(label)
             delete_hit(label, live_hit, args.hit_id)
+        elif subcommand == "approveall":
+            live_hit, _ = parse_config(label)
+            approve_all(label, live_hit, args.hit_id)
         elif subcommand == "getresults":
             live_hit, _ = parse_config(label)
             results, results_types = get_results(label, live_hit)
@@ -103,6 +106,7 @@ def delete_hit(experiment_label, live_hit, hit_id):
     try:
         mturk.delete_hit(HITId=hit_id)
     except:
+        import pdb; pdb.set_trace()
         print('Could not delete hit', hit_id)
     else:
         print('Deleted hit', hit_id)
@@ -112,6 +116,24 @@ def delete_hit(experiment_label, live_hit, hit_id):
             for line in lines:
                 if not line.strip('\n').startswith(hit_id):
                     hit_id_file.write(line)
+
+def approve_all(experiment_label, live_hit, hit_id):
+    hit_id_filename = experiment_label + ".hits"
+    mturk = mturk_client(live_hit = live_hit)
+    response = mturk.list_assignments_for_hit(
+        HITId = hit_id,
+        AssignmentStatuses=['Submitted']
+    )
+    for a in response['Assignments']:
+        try:
+            response = mturk.approve_assignment(
+                AssignmentId = a['AssignmentId']
+            )
+        except:
+            print('Could not delete assignment', a['AssignmentId'])
+        else:
+            print('Approved assignment', a['AssignmentId'])
+
 
 def parse_answer(json_str):
   try:
@@ -154,6 +176,8 @@ def get_results(experiment_label, live_hit=True):
           assignment_id = a["AssignmentId"]
           for answer_field in xml_doc['QuestionFormAnswers']['Answer']:
             field_name = answer_field['QuestionIdentifier']
+            if field_name == "condition":
+              condition = parse_answer(answer_field['FreeText'])
             if field_name == "trials":
               trials = parse_answer(answer_field['FreeText'])
             else:
@@ -179,14 +203,16 @@ def get_results(experiment_label, live_hit=True):
 
           d = add_workerid(worker_id, "assignments", {"assignmentid": assignment_id})
           results["assignments"].append(d)
+
           try:
-            trials = add_workerid(worker_id, "trials", answer_obj)
-            for t in trials:
+            trials = add_workerid(worker_id, "trials", trials)
+            for t in results['trials']:
                for col in additional_trial_cols:
                  t[col] = additional_trial_cols[col]
             results["trials"].extend(trials)
           except:
             pass   # skip if no trials field
+          
           
   return results, result_types   
  

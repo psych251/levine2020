@@ -8,6 +8,10 @@
 # User-specific files
 .Ruserdata
 
+# Experiment data and MTurk info
+experiment/experiment.config
+experiment/*.csv
+
 # Example code in package build process
 *-Ex.R
 
@@ -21,7 +25,7 @@
 .Rproj.user/
 
 # RPubs files
-*rsconnect/*
+writeup/rsconnect/
 
 # produced vignettes
 vignettes/*.html
