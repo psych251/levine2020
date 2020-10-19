@@ -1,15 +1,23 @@
 ---
 title: "Replication of Study 1 by Levine et al. (2020, PNAS)"
-author: "Sydney Levine (smlevine@mit.edu), Max Kleiman-Weiner, Laura Schulz, Joshua Tenenbaum, & Fiery Cushman"
+author: Sydney Levine (smlevine@mit.edu), Max Kleiman-Weiner, Laura Schulz, Joshua
+  Tenenbaum, & Fiery Cushman
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
   html_document:
     toc: yes
     toc_depth: 3
     toc_float:
-      collapsed: false
+      collapsed: no
+  pdf_document:
+    toc: yes
+    toc_depth: '3'
 ---
 
+```{r setup, include=F}
+require("knitr")
+opts_knit$set(root.dir = "~/Documents/stanford/classes/psych251/levine2020/")
+```
 
 ## Introduction
 
@@ -77,27 +85,58 @@ You can comment this section out prior to final report with data collection.
 
 Data preparation following the analysis plan.
 	
-```{r include=T}
-###Data Preparation
+```{r include=T, message=F}
+### Prepare Data
 
-####Load Relevant Libraries and Functions
-# library(dplyr)
-# library(ggstatsplot)   # extension of ggplot2 with stats features
+#### Load Relevant Libraries and Functions
+library(tidyverse)
+library(ggstatsplot)   # extension of ggplot2 with stats features
 
-####Import data
+### Import Data
+data <- read_csv("experiment/pilot_data.csv")
+head(data)
 
-#### Data exclusion / filtering
-# Q1: include if answer is 19 && condition is high, or if answer is 0 && condition is low
-# Q2: include if answer is 19, 20, or 21
-# Q3: include if answer is 0
-# Q4: include if answer is C (multiple choice A, B, or C)
+#### Filter Data
+data_filtered <- data %>%
+  # Q1: include if answer is 19 && condition is high, or if answer is 0 && condition is low
+  filter((exclude1 == '19' & condition == 'high') | (exclude1 == '0' & condition == 'low')) %>%
+  # Q2: include if answer is 19, 20, or 21
+  filter(exclude2 %in% c('19', '20', '21')) %>%
+  # Q3: include if answer is 0
+  filter(exclude3 == '0') %>%
+  # Q4: include if answer is C (multiple choice A, B, or C)
+  filter(grepl('It will not make a difference to the fish population.', exclude4))
 
 #### Prepare data for analysis - create columns etc.
+data_filtered <- data_filtered %>%
+  mutate(acceptability01 = ifelse(acceptability == 'Yes', 1, 0)) %>%
+  group_by(condition) %>%
+  summarise(m = mean(acceptability01),
+            stdev= sd(acceptability01),
+            se = stdev/sqrt(n()),
+            upper= m+se*1.96,
+            lower=m-se*1.96) 
 ```
 
 ### Confirmatory analysis
 
 - Side-by-side comparison of Figure 4 from paper
+
+![fig4](fig4.png){width=49%}
+```{r, echo=F, fig.width=4, fig.height=5, out.width='49%'}
+ggplot(data_filtered, aes(x = condition, y = m)) +
+  geom_col(aes(fill = condition)) +
+  geom_errorbar(aes(ymin = lower, ymax = pmin(upper, 1)),
+                  width=0.2) +
+  ylim(0, 1) +
+  theme(aspect.ratio = 1.5,
+        legend.position = 'none',
+        text = element_text(size=22),
+        plot.title = element_text(size=16, face='bold')) +
+  ggtitle('Replication of Study 2a') +
+  ylab('Prob(Acceptable)')
+```
+
 - Results of chi-squared analysis
 - Results of analysis on rule and knowledge questions, and side-by-side comparison of Figure S5 from supplemental if necessary
 
