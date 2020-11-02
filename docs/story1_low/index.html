@@ -171,17 +171,19 @@
                 {trial_type: 'survey-html-form'}
             ]);
             //var turkInfo = jsPsych.turk.turkInfo();
-            var data = all_data.ignore('rt')
-                               .ignore('internal_node_id')
-                               .ignore('trial_index')
-                               .ignore('stimulus')
-                               .ignore('time_elapsed')
-                               .ignore('question_order');
-            //console.log(data.csv());
+            //var data = all_data.ignore('rt')
+            //                   .ignore('internal_node_id')
+            //                   .ignore('trial_index')
+            //                   .ignore('stimulus')
+            //                   .ignore('time_elapsed')
+            //                   .ignore('question_order');
+            var data = all_data.select('responses');
+            //console.log(typeof data.values);
+            //console.log(data.values);
             jsPsych.turk.submitToTurk({
-                trials: data,
-                story: story_id,
-                condition: story_condition
+                'trials': data.values,
+                'story': story_id,
+                'condition': story_condition
             });
             $('body').html('<div style="margin: auto;"> <p> Your data has been' +
                 ' successfully recorded! </p>');
