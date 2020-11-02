@@ -99,6 +99,8 @@ jsPsych.plugins['survey-text'] = (function() {
     if(trial.preamble !== null){
       html += '<div id="jspsych-survey-text-preamble" class="jspsych-survey-text-preamble">'+trial.preamble+'</div>';
     }
+    html += '<div style="width:40%; float:right;">';
+
     // start form
     html += '<form id="jspsych-survey-text-form">'
 
@@ -130,7 +132,8 @@ jsPsych.plugins['survey-text'] = (function() {
     // add submit button
     html += '<input type="submit" id="jspsych-survey-text-next" class="jspsych-btn jspsych-survey-text" value="'+trial.button_label+'"></input>';
 
-    html += '</form>'
+    html += '</form>';
+    html += '</div>';
     display_element.innerHTML = html;
 
     // backup in case autofocus doesn't work

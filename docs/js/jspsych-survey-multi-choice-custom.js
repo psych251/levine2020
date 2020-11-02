@@ -84,7 +84,7 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
     html += ".jspsych-survey-multi-choice-question { margin-top: 2em; margin-bottom: 2em; text-align: center; }"+
       ".jspsych-survey-multi-choice-text span.required {color: darkred;}"+
       ".jspsych-survey-multi-choice-horizontal .jspsych-survey-multi-choice-text {  text-align: center;}"+
-      ".jspsych-survey-multi-choice-option { line-height: 2; }"+
+      //".jspsych-survey-multi-choice-option { line-height: 2; }"+
       ".jspsych-survey-multi-choice-horizontal .jspsych-survey-multi-choice-option {  display: inline-block;  margin-left: 1em;  margin-right: 1em;  vertical-align: top;}"+
       "label.jspsych-survey-multi-choice-text input[type='radio'] {margin-right: 1em;}";
     html += '</style>';
@@ -93,6 +93,7 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
     if(trial.preamble !== null){
       html += '<div id="jspsych-survey-multi-choice-preamble" class="jspsych-survey-multi-choice-preamble">'+trial.preamble+'</div>';
     }
+    html += '<div style="width:40%; float:right;">';
 
     // form element
     html += '<form id="jspsych-survey-multi-choice-form">';
@@ -138,6 +139,8 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
 
         var required_attr = question.required ? 'required' : '';
 
+        if (!(question.horizontal)) { html += '<br>'; }
+
         // add radio button container
         html += '<div id="'+option_id_name+'" class="jspsych-survey-multi-choice-option">';
         html += '<label class="jspsych-survey-multi-choice-text" for="'+input_id+'">'+question.options[j]+'</label>';
@@ -151,6 +154,8 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
     // add submit button
     html += '<input type="submit" id="'+plugin_id_name+'-next" class="'+plugin_id_name+' jspsych-btn"' + (trial.button_label ? ' value="'+trial.button_label + '"': '') + '></input>';
     html += '</form>';
+
+    html += '</div';
 
     // render
     display_element.innerHTML = html;

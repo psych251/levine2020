@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title> Replication of Levine et al. (2020) </title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src='../js/jspsych.js'></script>
+        <script src='../js/jspsych-html-button-response.js'></script>
+        <script src='../js/jspsych-survey-text-custom.js'></script>
+        <script src='../js/jspsych-survey-html-form.js'></script>
+        <script src='../js/jspsych-survey-multi-choice-custom.js'></script>
+        <script src='../js/story1_low.js'></script>
+        <link href='../css/jspsych.css' rel='stylesheet' type='text/css'></link>
+        <style>
+            body, html {height: 100%;}
+        </style>
+</head>
+<body></body>
+<script>
+    // create timeline
+    var timeline = [];
+
+    // display consent form
+    timeline.push({
+        type: 'html-button-response',
+        stimulus: '<p> <b> Consent Form </b> </p> <div style="text-align:left;' +
+            'background-color:lightblue; padding:20px;">' +
+            '<p> By answering the following questions, you are participating in' +
+            ' a study being performed by cognitive scientists in the Stanford' +
+            ' Department of Psychology. If you have questions about this research,' +
+            ' please contact us at stanfordpsych251@gmail.com. You must be at' +
+            ' least 18 years old to participate. Your participation in this' +
+            ' research is voluntary. You may decline to answer any or all of' +
+            ' the following questions. You may decline further participation,' +
+            ' at any time, without adverse consequences. Your anonymity is' +
+            ' assured; the researchers who have requested your participation will' +
+            ' not receive any personal information about you. We have recently' +
+            ' been made aware that your public Amazon.com profile can be accessed' +
+            ' via your worker ID if you do not choose to opt out. If you would like' +
+            ' to opt out of this feature, you may follow instructions available' +
+            ' <a href="https://www.amazon.com/gp/help/customer/display.html?' +
+            'nodeId=16465241" target="_blank">here</a> (opens link in new tab).' +
+            '</p> </div> <p> Do you agree with the terms of the study as' +
+            ' explained above? </p>',
+        choices: ['I agree']
+    });
+    
+    // display welcome and instructions
+    timeline.push({
+        type: 'html-button-response',
+        stimulus: '<p> Welcome! </p> <p> On the following pages you will be asked' +
+            ' to read a short story and answer questions about it. The questions' +
+            ' on each page of the survey will be different, but the story will' +
+            ' remain the same. (The story will appear on each page for your' +
+            ' reference.) After the survey there will be an opportunity to let' +
+            ' us know if something was confusing or unclear.</p>' +
+            '<p> Please click the start button whenever you are ready. </p>',
+        choices: ['Start'],
+    });
+
+    var scroll_story = '<div style="width:50%; height:500px; text-align:left;' +
+        ' background-color:lightblue; float:left; padding:2%; margin-right:5%;' +
+        ' overflow:auto;"> <p>' + story + '</p> </div> </div>';
+
+    // display story
+    timeline.push({
+        type: 'html-button-response',
+        stimulus: '<div style="width:70%; height:500px; text-align:left;' +
+            'background-color:lightblue; padding:2%; margin:auto; overflow:' +
+            'auto;"> <p>' + story + '</p> </div>',
+        choices: ['Continue']
+    });
+
+    // comprehension questions (exclusion criteria)
+    timeline.push({
+        type: 'survey-text',
+        preamble: scroll_story,
+        questions: [
+            {
+                prompt: exclude1_prompt,
+                placeholder: 'enter a number',
+                required: true,
+                name: 'exclude1'
+            },
+            {
+                prompt: exclude2_prompt,
+                placeholder: 'enter a number',
+                required: true,
+                name: 'exclude2'
+            },
+            {
+                prompt: exclude3_prompt,
+                placeholder: 'enter a number',
+                required: true,
+                name: 'exclude3'
+            }
+        ],
+    });
+    timeline.push({
+        type: 'survey-multi-choice',
+        preamble: scroll_story,
+        questions: [
+            {
+                prompt: exclude4_prompt,
+                options: exclude4_options,
+                required: true,
+                name: 'exclude4'
+             }
+        ]
+    });
+
+    // actual questions
+    timeline.push({
+        type: 'survey-multi-choice',
+        preamble: scroll_story,
+        questions: [
+            {
+                prompt: acceptability_prompt,
+                options: ['Yes', 'No'],
+                required: true,
+                name: 'acceptability',
+                horizontal: true
+            }
+        ]
+    });
+    timeline.push({
+        type: 'survey-multi-choice',
+        preamble: scroll_story,
+        questions: [
+            {
+                prompt: rule_prompt,
+                options: ['Yes', 'No'],
+                required: true,
+                name: 'rule',
+                horizontal: true
+            }
+        ]
+    });
+    timeline.push({
+        type: 'survey-text',
+        preamble: scroll_story,
+        questions: [
+            {
+                prompt: know_prompt,
+                columns: 20,
+                placeholder: 'enter a number',
+                required: true,
+                name: 'know'
+            }
+        ]
+    });
+
+    // feedback form
+    timeline.push({
+        type: 'survey-html-form',
+        html: '<p> Thank you for participating in this experiment! If you have' +
+            ' any thoughts or comments, you may leave them below. Please do not' +
+            ' share any information about this study with other potential' +
+            ' participants. </p>' +
+            '<textarea name="feedback" cols="80" rows="6" "autofocus"></textarea>' +
+            '<p> Click the finish button to complete the experiment. </p>',
+        button_label: 'Finish'
+    });
+
+    // start the experiment
+    jsPsych.init({
+        timeline: timeline,
+        on_finish: function() {
+            var all_data = jsPsych.data.get().filter([
+                {trial_type: 'survey-text'},
+                {trial_type: 'survey-multi-choice'},
+                {trial_type: 'survey-html-form'}
+            ]);
+            //var turkInfo = jsPsych.turk.turkInfo();
+            var data = all_data.ignore('rt')
+                               .ignore('internal_node_id')
+                               .ignore('trial_index')
+                               .ignore('stimulus')
+                               .ignore('time_elapsed')
+                               .ignore('question_order');
+            //console.log(data.csv());
+            jsPsych.turk.submitToTurk({
+                trials: data,
+                story: story_id,
+                condition: story_condition
+            });
+            $('body').html('<div style="margin: auto;"> <p> Your data has been' +
+                ' successfully recorded! </p>');
+            setTimeout(function(){}, 2000);
+        }
+    });
+
+</script>
+</html>
