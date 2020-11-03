@@ -47,13 +47,14 @@
     // display welcome and instructions
     timeline.push({
         type: 'html-button-response',
-        stimulus: '<p> Welcome! </p> <p> On the following pages you will be asked' +
-            ' to read a short story and answer questions about it. The questions' +
-            ' on each page of the survey will be different, but the story will' +
-            ' remain the same. (The story will appear on each page for your' +
-            ' reference.) After the survey there will be an opportunity to let' +
-            ' us know if something was confusing or unclear.</p>' +
-            '<p> Please click the start button whenever you are ready. </p>',
+        stimulus: '<div style="width:70%; margin:auto;"> <p> Welcome! </p>' +
+            '<p> On the following pages you will be asked to read a short' +
+            ' story and answer questions about it. The questions on each page' +
+            ' of the survey will be different, but the story will remain the' +
+            ' same. (The story will appear on each page for your reference.)' +
+            ' After the survey there will be an opportunity to let us know if' +
+            ' something was confusing or unclear. </p> <p> Please click the' +
+            ' start button whenever you are ready. </p> </div>',
         choices: ['Start'],
     });
 
@@ -152,12 +153,18 @@
     // feedback form
     timeline.push({
         type: 'survey-html-form',
-        html: '<p> Thank you for participating in this experiment! If you have' +
-            ' any thoughts or comments, you may leave them below. Please do not' +
-            ' share any information about this study with other potential' +
-            ' participants. </p>' +
-            '<textarea name="feedback" cols="80" rows="6" "autofocus"></textarea>' +
-            '<p> Click the finish button to complete the experiment. </p>',
+        html: '<div style="width:70%; margin:auto;"> <p> Thank you for' +
+            ' participating! </p> <p> This experiment was designed to study' +
+            ' the extent to which people engage in a type of moral reasoning' +
+            ' called <i>universalization</i>, which is judging that an action' +
+            ' is morally wrong because it would be bad if, hypothetically,' +
+            ' everyone did that action. We think this plays a key role in social' +
+            ' problems such as environmental stewardship, like the story you' +
+            ' just read. If you have any thoughts or comments about the' +
+            ' experiment, you may leave them below. Please do not share any' +
+            ' information with other potential participants. </p> <textarea' +
+            ' name="feedback" cols="80" rows="6" "autofocus"> </textarea> <p>' +
+            ' Click the finish button to complete the experiment. </p> </div>',
         button_label: 'Finish'
     });
 
