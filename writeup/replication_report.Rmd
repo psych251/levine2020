@@ -32,18 +32,31 @@ Links to [this repo](https://github.com/psych251/levine2020) and [the original p
 ### Power Analysis
 
 <!-- Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size.  Considerations of feasibility for selecting planned sample size. -->
+```{r include=F}
+# power analysis of original data
+library(pwr)
+pwr.chisq.test(w = 0.32, N = 608, df = 4, sig.level = 0.05)
+
+# sample size needed for 80% power, assumming original effect size
+pwr.chisq.test(w = 0.32, df = 4, sig.level = 0.05, power = 0.8)
+
+# extrapolating just one story and calculating effect size
+# sem <- 0.08/2 * sqrt(608/5)
+# d <- (0.66 - 0.44)/sem
+# pwr.t.test(d = d, sig.level = 0.05, power = 0.8, alternative="greater")
+```
 
 ### Planned Sample
 
-Like the original study, participants will be recruited from MTurk. A smaller sample will be recruited due to financial constraints, but it will still be enough to report a result (if significant) based on a power analysis (TBD).
+Like the original study, participants will be recruited from MTurk. A smaller sample will be recruited due to financial constraints, but it will still be enough to report a result (if significant) based on the power analysis.
 
 ### Materials and Procedure
 
-Participants will be assigned to either the High Interest or the Low Interest condition and read a story about fishing as follows:
+Participants will be assigned to one of two conditions (High interest or Low interest) and one of five contexts (catching fish, hunting birds, digging clams, foraging for mushrooms, or trapping rabbits) for which they will read a story about a collective action problem. Although the contexts differ, the basic structure of each vignette is the same. For instance, the fishing context story is as follows:
 
 > Twenty vacationers currently fish in a sustainable way, but then a new fishing hook becomes available that allows each vacationer to catch many more fish. If fewer than three vacationers start using the hook, there will be no negative consequences; if more than seven vacationers start using the hook, then there is guaranteed to be a total collapse of the fish population by summer’s end. Thus, the harm threshold occurs at three to seven interested parties. The protagonist of this vignette, John, is interested in using the new hook. Participants are asked if doing so would be morally acceptable.
 
-The exact text shown to participants is provided in the [supplemental materials](https://github.com/psych251/levine2020/blob/master/original_paper/levine2020_universalization_supplement.pdf) with the instructions on lines 97-100, comprehension questions (exclusion crteria) on lines 97-96, the story itself on lines 174-218, and experiment questions on lines 134-145. These will all be shown in the same order and same format as the original study. The only difference is that five different stories were used in the original study while only one is selected here due to financial constraints, but this one story will still be an exact replication and the same effects will be tested.
+The exact text shown to participants is provided in the [supplemental materials](https://github.com/psych251/levine2020/blob/master/original_paper/levine2020_universalization_supplement.pdf) with the instructions on lines 97-100, comprehension questions (exclusion crteria) on lines 87-96, the stories themselves on lines 107-358, and experiment questions on lines 134-145. These will all be shown in the same order and same format as the original study.
 
 ### Analysis Plan
 
@@ -65,7 +78,8 @@ So for these two questions, first a chi-squared analysis will be used to determi
 
 ### Differences from Original Study
 
-The recruiting process, materials, and experimental procedure used in this replication report will be the same as those in the original study. The only difference is that it will effectively be a replication at a smaller scale: less participants will be recruited and only one of five stories will be used. However, given that (1) the authors of the original study still found a significant result within each story, (2) their full model found no effect of which story was used, and (3) their combined results were very significant (p<0.001), I don't anticipate that this difference will make a large impact based on the claims in the original paper.
+The recruiting process, materials, and experimental procedure used in this replication report will be the same as those in the original study.
+<!-- The only difference is that it will effectively be a replication at a smaller scale: less participants will be recruited and only one of five stories will be used. However, given that (1) the authors of the original study still found a significant result within each story, (2) their full model found no effect of which story was used, and (3) their combined results were very significant (p<0.001), I don't anticipate that this difference will make a large impact based on the claims in the original paper. -->
 
 ### Methods Addendum (Post Data Collection)
 
@@ -85,7 +99,7 @@ You can comment this section out prior to final report with data collection.
 
 Data preparation following the analysis plan.
 	
-```{r include=T, message=F}
+```{r eval=F, include=T, message=F}
 ### Prepare Data
 
 #### Load Relevant Libraries and Functions
@@ -123,18 +137,20 @@ data_filtered <- data_filtered %>%
 - Side-by-side comparison of Figure 4 from paper
 
 ![fig4](fig4.png){width=49%}
-```{r, echo=F, fig.width=4, fig.height=5, out.width='49%'}
+```{r, eval=F, echo=F, fig.width=4, fig.height=5, out.width='49%'}
 ggplot(data_filtered, aes(x = condition, y = m)) +
   geom_col(aes(fill = condition)) +
   geom_errorbar(aes(ymin = lower, ymax = pmin(upper, 1)),
                   width=0.2) +
   ylim(0, 1) +
-  theme(aspect.ratio = 1.5,
+  theme_classic() +
+  theme(aspect.ratio = 1.1,
         legend.position = 'none',
         text = element_text(size=22),
         plot.title = element_text(size=16, face='bold')) +
   ggtitle('Replication of Study 2a') +
-  ylab('Prob(Acceptable)')
+  ylab('Prob(Acceptable)') +
+  scale_fill_brewer(palette='Pastel2')
 ```
 
 - Results of chi-squared analysis

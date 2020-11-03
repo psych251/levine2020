@@ -5,7 +5,6 @@ import boto3
 import xmltodict
 from datetime import datetime
 
-
 MTURK_SANDBOX_URL = "https://mturk-requester-sandbox.us-east-1.amazonaws.com"
 try:
     MTURK_ACCESS_KEY = os.environ["MTURK_ACCESS_KEY"]
@@ -19,7 +18,7 @@ except:
 
 def main():
     parser = argparse.ArgumentParser(description='Interface with MTurk.')
-    parser.add_argument("subcommand", choices=['posthit', 'deletehit', 'approveall', 'getresults', 'assignqualification', 'paybonus'],
+    parser.add_argument("subcommand", choices=['posthit', 'deletehit', 'approveall', 'listall', 'getresults', 'assignqualification', 'paybonus'],
         type=str, action="store",
         help="choose a specific subcommand.")
     parser.add_argument("nameofexperimentfiles", metavar="label", type=str, nargs="+",
@@ -45,7 +44,10 @@ def main():
             delete_hit(label, live_hit, args.hit_id)
         elif subcommand == "approveall":
             live_hit, _ = parse_config(label)
-            approve_all(label, live_hit, args.hit_id)
+            approve_all_assignments(label, live_hit, args.hit_id)
+        elif subcommand == 'listall':
+            live_hit, _ = parse_config(label)
+            list_all_hits(live_hit)
         elif subcommand == "getresults":
             live_hit, _ = parse_config(label)
             results, results_types = get_results(label, live_hit)
@@ -83,7 +85,6 @@ def preview_url(hit_id, live_hit=True):
 
 def post_hit(experiment_label, hit_configs, live_hit=True):
   hit_id_filename = experiment_label + ".hits"
-  
   mturk = mturk_client(live_hit = live_hit)
   with open(hit_id_filename, "a") as hit_id_file:
     print("-" * 80)
@@ -97,6 +98,7 @@ def post_hit(experiment_label, hit_configs, live_hit=True):
 def delete_hit(experiment_label, live_hit, hit_id):
     hit_id_filename = experiment_label + ".hits"
     mturk = mturk_client(live_hit = live_hit)
+    print("-" * 80)
     status = mturk.get_hit(HITId=hit_id)['HIT']['HITStatus']
     if status == "Assignable":
         response = mturk.update_expiration_for_hit(
@@ -106,40 +108,65 @@ def delete_hit(experiment_label, live_hit, hit_id):
     try:
         mturk.delete_hit(HITId=hit_id)
     except:
-        import pdb; pdb.set_trace()
-        print('Could not delete hit', hit_id)
+        print('Could not delete hit \"{}\"'.format(hit_id))
     else:
-        print('Deleted hit', hit_id)
+        print('Deleted hit \"{}\"'.format(hit_id))
         with open(hit_id_filename, 'r') as hit_id_file:
             lines = hit_id_file.readlines()
         with open(hit_id_filename, 'w') as hit_id_file:
             for line in lines:
                 if not line.strip('\n').startswith(hit_id):
                     hit_id_file.write(line)
+    finally:
+        print("-" * 80)
 
-def approve_all(experiment_label, live_hit, hit_id):
+def approve_all_assignments(experiment_label, live_hit, hit_id):
     hit_id_filename = experiment_label + ".hits"
     mturk = mturk_client(live_hit = live_hit)
-    response = mturk.list_assignments_for_hit(
+    print("-" * 80)
+    worker_results = mturk.list_assignments_for_hit(
         HITId = hit_id,
         AssignmentStatuses=['Submitted']
     )
-    for a in response['Assignments']:
+    print('Found {} pending assignments for hit \"{}\"'.format(len(worker_results['Assignments']), hit_id))
+    for a in worker_results['Assignments']:
         try:
             response = mturk.approve_assignment(
                 AssignmentId = a['AssignmentId']
             )
         except:
-            print('Could not delete assignment', a['AssignmentId'])
+            print('  Could not approve assignment "\{}\"'.format(a['AssignmentId']))
         else:
-            print('Approved assignment', a['AssignmentId'])
+            print('  Approved assignment "\{}\"'.format(a['AssignmentId']))
+    print("-" * 80)
 
+def list_all_hits(live_hit):
+    mturk = mturk_client(live_hit = live_hit)
+    hit_results = mturk.list_hits()
+    print("-" * 80)
+    for i, hit in enumerate(hit_results['HITs']):
+        if i != 0:
+            print('')
+        print('\"{}\": {}/{}\nTitle: \"{}\"\nPosted: {}'.format(hit['HITId'],
+            hit['NumberOfAssignmentsCompleted'], hit['MaxAssignments'],
+            hit['Title'], hit['CreationTime']))
+    print("-" * 80)
 
 def parse_answer(json_str):
   try:
     return json.loads(json_str)
   except json.decoder.JSONDecodeError:
-    return json_str
+    try:
+        json_list = '[' + json_str + ']'
+        loaded_list = json.loads(json_list)
+        json_dict = dict()
+        for trial in loaded_list:
+            if type(trial) == dict:
+                for key, value in trial.items():
+                    json_dict[key] = value
+        return [json_dict]
+    except:
+        return json_str
 
 def add_workerid(workerid, answer_name, answer_obj):
   if isinstance(answer_obj, dict):
@@ -176,8 +203,6 @@ def get_results(experiment_label, live_hit=True):
           assignment_id = a["AssignmentId"]
           for answer_field in xml_doc['QuestionFormAnswers']['Answer']:
             field_name = answer_field['QuestionIdentifier']
-            if field_name == "condition":
-              condition = parse_answer(answer_field['FreeText'])
             if field_name == "trials":
               trials = parse_answer(answer_field['FreeText'])
             else:
@@ -199,20 +224,15 @@ def get_results(experiment_label, live_hit=True):
                 d = add_workerid(worker_id, field_name, answer_obj)
                 results[field_name].append(d)
               elif result_types[field_name] == "value":
-                additional_trial_cols["Answer." + field_name] = answer_obj
+                additional_trial_cols[field_name] = answer_obj
 
           d = add_workerid(worker_id, "assignments", {"assignmentid": assignment_id})
           results["assignments"].append(d)
-
-          try:
-            trials = add_workerid(worker_id, "trials", trials)
-            for t in results['trials']:
-               for col in additional_trial_cols:
-                 t[col] = additional_trial_cols[col]
-            results["trials"].extend(trials)
-          except:
-            pass   # skip if no trials field
-          
+          trials = add_workerid(worker_id, "trials", trials)
+          for t in trials:
+            for key, value in additional_trial_cols.items():
+               t[key] = value
+          results["trials"].extend(trials)
           
   return results, result_types   
  

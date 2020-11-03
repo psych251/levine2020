@@ -1,6 +1,7 @@
 // story 1: catching fish
 var story_id = 1;
-var story_condition = 'low';
+var story_condition = 'high';
+
 var story_begin = '<p> Lake Wilson is a small lake in upstate New York. Each summer,' +
     ' a few dozen families move into small cottages near the lake for the season. The' +
     ' vacationers enjoy boating, swimming, and fishing in the lake and they&#39;ve' +
@@ -33,13 +34,11 @@ var story_begin = '<p> Lake Wilson is a small lake in upstate New York. Each sum
 var story_end = '<p> John thinks to himself: <i> No one else is going to use' +
     ' the new hooks. Under these circumstances, it&#39;s OK for me to use the new' +
     ' hooks and catch more fish. </i> </p>';
-var story = story_begin + '<i> "I&#39;m just not interested in using those new' +
-    ' hooks. I really only need to catch a few fish a day, and I like to do that at' +
-    ' a leisurely pace and spend all day fishing. I&#39;m not in any rush and I' +
-    ' don&#39;t need to catch more fish. Besides, if everyone used the new hooks,' +
-    ' all the fish would disappear from the lake. I don&#39;t want that to happen.' +
-    ' But even if there were so many fish in the lake that everyone could use the' +
-    ' new hooks, I wouldn&#39;t want to use them anyway." </i> </p>' + story_end;
+var story = story_begin + '<i> "I would love to use those new hooks to catch more' +
+    ' fish faster, but what would happen if everyone did that? If everyone used' +
+    ' the new hooks, all the fish would disappear from the lake. I don&#39;t want' +
+    ' that to happen, so I&#39;m not going to use the new hook." </i> </p>' +
+    story_end; 
 
 var exclude1_prompt = 'How many people, besides John, would like to use the new' +
     ' hooks if there were no bad effects of doing so?';
