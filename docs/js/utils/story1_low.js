@@ -57,5 +57,5 @@ var exclude4_options = [
 var acceptability_prompt = 'Is it morally acceptable for John to use the new hook?';
 var rule_prompt = 'Is there a rule on the lake that the new hook is forbidden?';
 var know_prompt = 'If John starts using the new hook, how many people will' +
-    'know about it?';
+    ' know about it?';
 

@@ -57,5 +57,5 @@ var exclude4_options = [
 var acceptability_prompt = 'Is it morally acceptable for John to use the new knife?';
 var rule_prompt = 'Is there a rule in the forest that the new knife is forbidden?';
 var know_prompt = 'If John starts using the new knife, how many people will' +
-    'know about it?';
+    ' know about it?';
 
