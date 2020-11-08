@@ -11,7 +11,7 @@
 
 <meta name="author" content="Sydney Levine (smlevine@mit.edu), Max Kleiman-Weiner, Laura Schulz, Joshua Tenenbaum, &amp; Fiery Cushman" />
 
-<meta name="date" content="2020-11-02" />
+<meta name="date" content="2020-11-08" />
 
 <title>Replication of Study 1 by Levine et al. (2020, PNAS)</title>
 
@@ -1531,7 +1531,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Replication of Study 1 by Levine et al. (2020, PNAS)</h1>
 <h4 class="author">Sydney Levine (<a href="mailto:smlevine@mit.edu" class="email">smlevine@mit.edu</a>), Max Kleiman-Weiner, Laura Schulz, Joshua Tenenbaum, &amp; Fiery Cushman</h4>
-<h4 class="date">November 02, 2020</h4>
+<h4 class="date">November 08, 2020</h4>
 
 </div>
 
@@ -1539,7 +1539,7 @@ div.tocify {
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>Levine et al. showed in their paper “The logic of universalization guides moral judgement” that people (both adults and children) sometimes make moral judgements by considering the hypothetical situation “what if everyone did that?” – a process that they call <em>universalization</em>. They contrast a computational model of universalization with other models of moral judgement in a variety of experiments that capture a kind of collective action “threshold problem”. In this report, I aim to replicate Study 2a in which they contrast universalizaion with rule-based, outcome-based, and pessimistic outcome models of moral judgement.</p>
-<p>I think this study is very relevant to my interests in social responsibility and the use of counterfactuals in understanding and evaluating each other’s actions. The original (preregistered) study was conducted via MTurk and all the stimuli are given in <a href="https://github.com/psych251/levine2020/blob/master/original_paper/levine2020_universalization_supplement.pdf">supplemental materials</a>, so I will be aiming to replicate it exactly. I will be trying to recreate the left half of Figure 4 from the paper (and possibly also Figure S5 from the supplemental), and running the same statistical analyses. The main challenge will be coding the analysis since I’ve almost never analyzed data in R.</p>
+<p>This study is relevant to my interests in social responsibility and the use of hypotheticals and counterfactuals in understanding and evaluating each other’s actions. The original (preregistered) study was conducted via MTurk and all the stimuli are given in <a href="https://github.com/psych251/levine2020/blob/master/original_paper/levine2020_universalization_supplement.pdf">supplemental materials</a>, so I will be aiming to replicate it exactly. I will be trying to recreate the left half of Figure 4 from the paper (and possibly also Figure S5 from the supplemental), and running the same statistical analyses. The main challenge will be implementing the experiment and coding the analysis since I have only minimally worked with HTMl/JSPsych and R.</p>
 <p>Links to <a href="https://github.com/psych251/levine2020">this repo</a> and <a href="https://github.com/psych251/levine2020/blob/master/original_paper/levine2020_universalization.pdf">the original paper</a>.</p>
 </div>
 <div id="methods" class="section level2">
@@ -1550,11 +1550,11 @@ div.tocify {
 </div>
 <div id="planned-sample" class="section level3">
 <h3>Planned Sample</h3>
-<p>Like the original study, participants will be recruited from MTurk. A smaller sample will be recruited due to financial constraints, but it will still be enough to report a result (if significant) based on the power analysis.</p>
+<p>Like the original study, participants will be recruited from MTurk. A smaller sample (n = 130) will be recruited due to financial constraints, but it will still be enough to report a result (if significant) based on the power analysis while accounting for possible exclusions.</p>
 </div>
 <div id="materials-and-procedure" class="section level3">
 <h3>Materials and Procedure</h3>
-<p>Participants will be assigned to one of two conditions (High interest or Low interest) and one of five contexts (catching fish, hunting birds, digging clams, foraging for mushrooms, or trapping rabbits) for which they will read a story about a collective action problem. Although the contexts differ, the basic structure of each vignette is the same. For instance, the fishing context story is as follows:</p>
+<p>Participants will be assigned to one of two conditions (High interest or Low interest) and one of five vignettes (catching fish, hunting birds, digging clams, foraging for mushrooms, or trapping rabbits) for which they will read a story about a collective action problem. Although the context of the vignettes differ, the basic structure is the same. For instance, the story about catching fish is as follows:</p>
 <blockquote>
 <p>Twenty vacationers currently fish in a sustainable way, but then a new fishing hook becomes available that allows each vacationer to catch many more fish. If fewer than three vacationers start using the hook, there will be no negative consequences; if more than seven vacationers start using the hook, then there is guaranteed to be a total collapse of the fish population by summer’s end. Thus, the harm threshold occurs at three to seven interested parties. The protagonist of this vignette, John, is interested in using the new hook. Participants are asked if doing so would be morally acceptable.</p>
 </blockquote>
@@ -1562,11 +1562,11 @@ div.tocify {
 </div>
 <div id="analysis-plan" class="section level3">
 <h3>Analysis Plan</h3>
-<p>Data will be filtered using the same exclusion crteria as the original study: participants must correctly answer some comprehension questions in order to be included. After filtering the data, I’ll average participants’ responses (morally acceptability ratings) within the High Interest and Low Interest conditions, and compare the moral acceptability judgements between the two conditions by recreating the left half of Figure 4 from the paper. I’ll determine whether the difference is significant with the same statistical test as the original study:</p>
+<p>Data will be filtered using the same exclusion crteria as the original study: participants must correctly answer some comprehension questions in order to be included. After filtering the data, I will average participants’ responses (morally acceptability ratings) across the five vignettes and within the two conditions. The ratings will be compared between the two conditions and visualized in a replication of the left half of Figure 4 from the paper. I will determine whether the difference is significant with the same statistical test as the original study:</p>
 <blockquote>
 <p>Using a chi-squared analysis, we will see if subjects in the Low Interest condition are significantly more likely to say that the action is morally acceptable compared to subjects in the High Interest condition.</p>
 </blockquote>
-<p>Lastly, like the original study, I’ll investigate whether participants’ beliefs about rules or knowledge might explain their moral judgements instead. These were measured in the control questions.</p>
+<p>Lastly, like the original study, I will investigate whether participants’ beliefs about rules or knowledge might explain their moral judgements instead. These were measured in the control questions.</p>
 <p>For the “rule” question:</p>
 <blockquote>
 <p>There were only two subjects [out of 606 total] who answered that there was a rule on the lake forbidding the use of the hook. Judgments about the presence of a rule, therefore, do not explain subjects’ moral permissibility judgments.</p>
