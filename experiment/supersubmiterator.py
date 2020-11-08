@@ -18,7 +18,8 @@ except:
 
 def main():
     parser = argparse.ArgumentParser(description='Interface with MTurk.')
-    parser.add_argument("subcommand", choices=['posthit', 'deletehit', 'approveall', 'listall', 'getresults', 'assignqualification', 'paybonus'],
+    parser.add_argument("subcommand", choices=['posthit', 'deletehit', 'approveall',
+            'listall', 'getresults', 'assignqual', 'createqual', 'paybonus'],
         type=str, action="store",
         help="choose a specific subcommand.")
     parser.add_argument("nameofexperimentfiles", metavar="label", type=str, nargs="+",
@@ -26,7 +27,8 @@ def main():
         "experiment you want to work with. each experiment has a unique label. " +
         "this will be the beginning of the name of the config file (everything " +
         "before the dot). [label].config.")
-    parser.add_argument("--qualification-id", metavar="qualificationid", type=str,
+    parser.add_argument("--qual-id", metavar="qual_id", type=str, default = None)
+    parser.add_argument("--qual-description", metavar="qual_description", type=str,
       default = None)
     parser.add_argument("--hit-id", type=str, default=None)
 
@@ -53,9 +55,12 @@ def main():
             results, results_types = get_results(label, live_hit)
             # if len(results["trials"])  > 0:
             write_results(label, results, results_types)
-        elif subcommand == "assignqualification":
+        elif subcommand == "assignqual":
             live_hit, _ = parse_config(label)
-            assign_qualification(label, live_hit, args.qualification_id)
+            assign_qualification(label, live_hit, args.qual_id)
+        elif subcommand == 'createqual':
+            live_hit, _ = parse_config(label)
+            create_qualification(live_hit, args.qual_id, args.qual_description)
         elif subcommand == "paybonus":
             live_hit, _ = parse_config(label)
             pay_bonus(label, live_hit)
@@ -280,7 +285,7 @@ def write_results(label, results, results_types):
   print("-" * 80)
       
  
-def assign_qualification(label, live_hit, qualificationid):
+def assign_qualification(label, live_hit, qual_id):
   f = open(label + '-workerids.csv')
   content = f.read()
   content = content.split('\n')
@@ -296,12 +301,31 @@ def assign_qualification(label, live_hit, qualificationid):
 
   for workerid in workerids:
     response = mturk.associate_qualification_with_worker(
-      QualificationTypeId=qualificationid,
+      QualificationTypeId=qual_id,
       WorkerId=workerid,
       IntegerValue=100,
       SendNotification=False
     )
     print(response)
+
+
+def create_qualification(live_hit, qual_id, qual_description):
+  mturk = mturk_client(live_hit)
+  response = mturk.list_qualification_types(
+    Query = qual_id,
+    MustBeRequestable = False
+  )
+  if response['NumResults'] > 0:
+    print('This qualification already exists. The IDs are:')
+    for qual in response['QualificationTypes']:
+        print('   ', qual['QualificationTypeId'])
+  else:
+    response = mturk.create_qualification_type(
+      Name = qual_id,
+      Description = qual_description,
+      QualificationTypeStatus = 'Active'
+    )
+
 
 def pay_bonus(label, live_hit):
   
