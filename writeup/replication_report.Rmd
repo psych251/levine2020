@@ -98,15 +98,22 @@ You can comment this section out prior to final report with data collection.
 
 Data preparation following the analysis plan.
 	
-```{r eval=F, include=T, message=F}
+```{r include=T, message=F}
 ### Prepare Data
 
 #### Load Relevant Libraries and Functions
 library(tidyverse)
-library(ggstatsplot)   # extension of ggplot2 with stats features
+library(ggstatsplot)   # extension of ggplot2
+
+# set default plot theme 
+theme_set(theme_classic() + 
+          theme(text = element_text(size = 20))) 
+
+# suppress warnings about grouping 
+options(dplyr.summarise.inform = F)
 
 ### Import Data
-data <- read_csv("experiment/pilot_data.csv")
+data <- read_csv("experiment/pilotB-trials.csv")
 head(data)
 
 #### Filter Data
@@ -122,13 +129,20 @@ data_filtered <- data %>%
 
 #### Prepare data for analysis - create columns etc.
 data_filtered <- data_filtered %>%
-  mutate(acceptability01 = ifelse(acceptability == 'Yes', 1, 0)) %>%
+  # add dummy rows in case no data for either condition
+  add_row(condition = 'high') %>%
+  add_row(condition = 'low') %>%
+  mutate(acceptability01 = ifelse(acceptability == 'Yes', 1, 0) )%>%
   group_by(condition) %>%
-  summarise(m = mean(acceptability01),
-            stdev= sd(acceptability01),
-            se = stdev/sqrt(n()),
-            upper= m+se*1.96,
-            lower=m-se*1.96) 
+  # use 0 if no data for either condition, otherwise use true mean and sd
+  summarise(m_raw = mean(acceptability01, na.rm = TRUE),
+            m = ifelse(is.nan(m_raw), 0, m_raw),
+            sd_raw = sd(acceptability01, na.rm = TRUE),
+            sd = ifelse(is.na(sd_raw), 0, sd_raw),
+            se = sd/sqrt(n()),
+            upper = m + se*1.96,
+            lower = m - se*1.96)  %>%
+  subset(select = -c(m_raw, sd_raw))
 ```
 
 ### Confirmatory analysis
@@ -136,20 +150,26 @@ data_filtered <- data_filtered %>%
 - Side-by-side comparison of Figure 4 from paper
 
 ![fig4](fig4.png){width=49%}
-```{r, eval=F, echo=F, fig.width=4, fig.height=5, out.width='49%'}
+```{r, echo=F, fig.width=4, fig.height=5, out.width='49%'}
 ggplot(data_filtered, aes(x = condition, y = m)) +
   geom_col(aes(fill = condition)) +
   geom_errorbar(aes(ymin = lower, ymax = pmin(upper, 1)),
-                  width=0.2) +
+                  width = 0.2) +
   ylim(0, 1) +
-  theme_classic() +
   theme(aspect.ratio = 1.1,
         legend.position = 'none',
-        text = element_text(size=22),
-        plot.title = element_text(size=16, face='bold')) +
-  ggtitle('Replication of Study 2a') +
+        text = element_text(size = 22),
+        plot.title = element_text(size = 22,
+                                  face = 'bold',
+                                  hjust = 0.5),
+        axis.title.x = element_text(face = 'bold'),
+        axis.title.y = element_text(face = 'bold')) +
+  ggtitle('Pilot B (n = 2)') +
+  scale_x_discrete(labels=c('high' = 'High \n Interest',
+                            'low' = 'Low \n Interest')) +
+  xlab('Condition') +
   ylab('Prob(Acceptable)') +
-  scale_fill_brewer(palette='Pastel2')
+  scale_fill_brewer(palette = 'Pastel2')
 ```
 
 - Results of chi-squared analysis
