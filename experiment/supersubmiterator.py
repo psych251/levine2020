@@ -268,7 +268,7 @@ def write_results(label, results, results_types):
   results, anon_workerids = anonymize(results, results_types)
   for field in results_types:
     if results_types[field] != "value" and len(results[field]) > 0:
-      out_file_name = label + "-" + field + ".csv"
+      out_file_name = "../data/" + label + "-" + field + ".csv"
       with open(out_file_name, "w") as out_file:
         print("Writing results to {} ...".format(out_file_name))
         fieldnames = set().union(*[set(x.keys()) for x in results[field]])
@@ -276,7 +276,7 @@ def write_results(label, results, results_types):
         writer.writeheader()
         writer.writerows(results[field])
   
-  out_file_name = label + "-workerids.csv"
+  out_file_name = "../data/" + label + "-workerids.csv"
   with open(out_file_name, "w") as out_file:
     writer = csv.DictWriter(out_file, fieldnames=["workerid", "anon_workerid"])
     writer.writeheader()
@@ -286,7 +286,7 @@ def write_results(label, results, results_types):
       
  
 def assign_qualification(label, live_hit, qual_id):
-  f = open(label + '-workerids.csv')
+  f = open('../data/' + label + '-workerids.csv')
   content = f.read()
   content = content.split('\n')
 
@@ -333,7 +333,7 @@ def pay_bonus(label, live_hit):
   bonus_total = 0
   n_boni = 0
   new_rows = []
-  with open(label + '-bonus.csv') as f:
+  with open('../data/' + label + '-bonus.csv') as f:
     reader = csv.DictReader(f)
     for row in reader:
       if float(row["bonus"]) > 0:
@@ -362,7 +362,7 @@ def pay_bonus(label, live_hit):
   if len(new_rows) < 1:
     return
   
-  with open(label + "-bonus.csv", 'w') as f:
+  with open("../data/" + label + "-bonus.csv", 'w') as f:
     writer = csv.DictWriter(f, new_rows[0].keys())
     writer.writeheader()
     writer.writerows(new_rows)

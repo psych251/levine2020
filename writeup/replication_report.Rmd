@@ -104,6 +104,7 @@ Data preparation following the analysis plan.
 #### Load Relevant Libraries and Functions
 library(tidyverse)
 library(ggstatsplot)   # extension of ggplot2
+library(rcompanion)    # for cramer's V
 
 # set default plot theme 
 theme_set(theme_classic() + 
@@ -132,13 +133,16 @@ data_filtered <- data_filtered %>%
   # add dummy rows in case no data for either condition
   add_row(condition = 'high') %>%
   add_row(condition = 'low') %>%
-  mutate(acceptability01 = ifelse(acceptability == 'Yes', 1, 0) )%>%
+  mutate(acceptability01 = ifelse(acceptability == 'Yes', 1, 0))
+
+data_toplot <- data_filtered %>%
   group_by(condition) %>%
   # use 0 if no data for either condition, otherwise use true mean and sd
   summarise(m_raw = mean(acceptability01, na.rm = TRUE),
             m = ifelse(is.nan(m_raw), 0, m_raw),
             sd_raw = sd(acceptability01, na.rm = TRUE),
             sd = ifelse(is.na(sd_raw), 0, sd_raw),
+            n = n(),
             se = sd/sqrt(n()),
             upper = m + se*1.96,
             lower = m - se*1.96)  %>%
@@ -147,11 +151,12 @@ data_filtered <- data_filtered %>%
 
 ### Confirmatory analysis
 
-- Side-by-side comparison of Figure 4 from paper
+#### Figures
+- Recreation of Figure 4 from the paper
 
 ![fig4](fig4.png){width=49%}
 ```{r, echo=F, fig.width=4, fig.height=5, out.width='49%'}
-ggplot(data_filtered, aes(x = condition, y = m)) +
+ggplot(data_toplot, aes(x = condition, y = m)) +
   geom_col(aes(fill = condition)) +
   geom_errorbar(aes(ymin = lower, ymax = pmin(upper, 1)),
                   width = 0.2) +
@@ -172,8 +177,34 @@ ggplot(data_filtered, aes(x = condition, y = m)) +
   scale_fill_brewer(palette = 'Pastel2')
 ```
 
+#### Statistical tests
 - Results of chi-squared analysis
-- Results of analysis on rule and knowledge questions, and side-by-side comparison of Figure S5 from supplemental if necessary
+
+```{r include=T, warning=F}
+data_wide <- data_filtered %>%
+  # group_by(context) %>%
+  # add imaginary data for now
+  add_row(condition = 'low', acceptability = 'Yes') %>%
+  add_row(condition = 'high', acceptability = 'Yes') %>%
+  add_row(condition = 'high', acceptability = 'No') %>%
+  subset(select = c(condition, acceptability))
+
+# create contingency table (frequency)
+t <- table(data_wide$condition, data_wide$acceptability)
+
+chisq.test(t)
+
+cramerV(t)
+```
+
+#### Other factors
+- (If necessary:) Results of analysis on rule and knowledge questions, and side-by-side comparison of Figure S5 from supplemental
+
+```{r}
+data_filtered
+```
+
+Both pilot subjects answered 'No' for the rule question and '0' for the knowledge question, indicating that their moral judgements were not based on assumptions about the presence of rules or other agents' knowledge of John's actions.
 
 ## Discussion
 
