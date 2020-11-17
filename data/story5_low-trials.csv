@@ -1,0 +1,15 @@
+anon_workerid,condition,exclude3,feedback,acceptability,exclude1,exclude4,exclude2,rule,know,story
+0,low,0, ,Yes,0,It will not make a difference to the rabbit population.,20,No,0,5
+1,low,2, no comments,Yes,4,It will make the rabbit population more healthy.,4,Yes,20,5
+2,low,3, GOOD TASK,Yes,20,It will make the rabbit population more healthy.,7,Yes,20,5
+3,low,0, ,No,3,It will make the rabbit population less healthy.,0,No,20,5
+4,low,0, ,Yes,0,It will not make a difference to the rabbit population.,20,No,0,5
+5,low,3, ,Yes,0,It will not make a difference to the rabbit population.,20,No,0,5
+6,low,3, ,Yes,7,It will make the rabbit population more healthy.,20,Yes,7,5
+7,low,17, nice,Yes,20,It will make the rabbit population less healthy.,20,Yes,20,5
+8,low,0, ,Yes,0,It will not make a difference to the rabbit population.,20,No,0,5
+9,low,7, very nice survey ,Yes,3,It will make the rabbit population more healthy.,20,Yes,7,5
+10,low,3, ,Yes,7,It will make the rabbit population less healthy.,20,No,1,5
+11,low,0, k.none,No,0,It will not make a difference to the rabbit population.,20,Yes,20,5
+12,low,3, i like that survey,Yes,20,It will make the rabbit population more healthy.,7,Yes,20,5
+13,low,0, ,No,19,It will not make a difference to the rabbit population.,20,No,0,5

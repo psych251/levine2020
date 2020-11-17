@@ -1,0 +1,15 @@
+exclude1,exclude2,condition,exclude4,story,know,anon_workerid,rule,exclude3,feedback,acceptability
+20,20,high,It will make the mushroom population more healthy.,4,20,0,No,0, ,Yes
+20,20,high,It will make the mushroom population more healthy.,4,20,1,No,20, ,Yes
+20,20,high,It will not make a difference to the mushroom population.,4,0,2,No,0, ,Yes
+0,20,high,It will not make a difference to the mushroom population.,4,0,3,No,0, ,No
+2,20,high,It will not make a difference to the mushroom population.,4,0,4,No,0, The survey is interesting and it made me think.,No
+20,20,high,It will not make a difference to the mushroom population.,4,20,5,No,0, ,Yes
+20,20,high,It will make the mushroom population less healthy.,4,20,6,No,0, ,No
+5,20,high,It will make the mushroom population less healthy.,4,19,7,No,0, ,Yes
+3,20,high,It will make the mushroom population less healthy.,4,20,8,No,0, a very good story and study,No
+20,20,high,It will not make a difference to the mushroom population.,4,0,9,No,0, ,No
+7,20,high,It will make the mushroom population less healthy.,4,0,10,No,0, ,No
+20,20,high,It will make the mushroom population more healthy.,4,20,1,No,20, ,Yes
+20,20,high,It will make the mushroom population less healthy.,4,20,11,Yes,7, ,Yes
+20,20,high,It will not make a difference to the mushroom population.,4,0,12,No,0, I understood the story and the questions being asked but for some reason I wondered if I answered the questions right because they felt a little bit vague to me.,No

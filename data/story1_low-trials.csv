@@ -1,0 +1,15 @@
+exclude1,exclude2,condition,story,know,rule,feedback,exclude4,exclude3,anon_workerid,acceptability
+0,20,low,1,0,No, ,It will not make a difference to the fish population.,0,0,No
+0,20,low,1,0,No, ,It will not make a difference to the fish population.,0,1,Yes
+0,20,low,1,0,No, ,It will not make a difference to the fish population.,0,2,Yes
+7,20,low,1,20,Yes, I like this survey.,It will not make a difference to the fish population.,1,3,Yes
+6,20,low,1,13,Yes, ,It will make the fish population less healthy.,7,4,No
+0,20,low,1,0,No, ,It will make the fish population less healthy.,0,5,No
+3,20,low,1,20,Yes, This was hard to follow.,It will not make a difference to the fish population.,7,6,No
+8,7,low,1,3,No, It is good study and very interesting.,It will make the fish population more healthy.,5,7,Yes
+7,20,low,1,20,No, ,It will not make a difference to the fish population.,3,8,Yes
+20,20,low,1,20,Yes, good,It will make the fish population less healthy.,20,9,Yes
+0,20,low,1,0,No, ,It will not make a difference to the fish population.,0,10,Yes
+0,20,low,1,0,No, ,It will not make a difference to the fish population.,0,11,Yes
+0,20,low,1,0,No, ,It will not make a difference to the fish population.,0,12,Yes
+2,5,low,1,2,Yes, very great deal,It will make the fish population less healthy.,4,13,Yes

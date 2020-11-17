@@ -1,0 +1,15 @@
+anon_workerid,exclude1,exclude4,feedback,story,know,exclude2,exclude3,rule,acceptability,condition
+0,0,It will make the fish population less healthy., this story really nice and it create awareness   ,1,20,20,0,Yes,No,high
+1,20,It will not make a difference to the fish population., ,1,0,20,0,No,Yes,high
+2,7,It will make the fish population less healthy., ,1,20,20,3,No,No,high
+3,20,It will make the fish population less healthy., NA,1,20,20,0,No,No,high
+4,3,It will make the fish population less healthy., thanks for the survey,1,3,20,7,No,No,high
+5,20,It will make the fish population less healthy., ,1,20,20,0,No,No,high
+6,3,It will not make a difference to the fish population., ,1,20,20,0,No,Yes,high
+7,20,It will not make a difference to the fish population., ,1,0,20,0,No,Yes,high
+8,3,It will make the fish population more healthy., nice survey,1,3,20,7,No,Yes,high
+9,20,It will not make a difference to the fish population., ,1,0,20,0,No,Yes,high
+10,20,It will not make a difference to the fish population., ,1,0,20,0,No,Yes,high
+11,20,It will not make a difference to the fish population., ,1,1,20,0,No,No,high
+12,20,It will make the fish population less healthy., ,1,0,20,0,No,No,high
+13,223,It will make the fish population more healthy., ,1,12,42,13,Yes,Yes,high

@@ -1,0 +1,15 @@
+feedback,exclude3,story,exclude4,exclude1,rule,condition,know,anon_workerid,exclude2,acceptability
+ ,3,2,It will not make a difference to the pheasant population.,20,No,high,20,0,20,Yes
+ good.,3,2,It will make the pheasant population more healthy.,20,Yes,high,20,1,7,Yes
+ ,7,2,It will make the pheasant population more healthy.,3,Yes,high,3,2,20,Yes
+ no,3,2,It will make the pheasant population less healthy.,20,Yes,high,3,3,7,Yes
+ ,3,2,It will make the pheasant population more healthy.,20,Yes,high,7,4,7,Yes
+ ,0,2,It will not make a difference to the pheasant population.,20,No,high,0,5,20,Yes
+ ,0,2,It will not make a difference to the pheasant population.,20,No,high,"Probably many people, since he talked to everyone about it.",6,20,No
+ I am not sure,3,2,It will make the pheasant population more healthy.,20,Yes,high,20,7,20,Yes
+ Good,3,2,It will make the pheasant population more healthy.,7 or more,No,high,20,8,20,Yes
+ ,0,2,It will not make a difference to the pheasant population.,20,No,high,0,9,20,No
+ ,0,2,It will make the pheasant population less healthy.,20,Yes,high,0,10,20,No
+ ,0,2,It will not make a difference to the pheasant population.,20,No,high,0,11,20,No
+ ,0,2,It will not make a difference to the pheasant population.,20,No,high,1,12,20,Yes
+ ,0,2,It will not make a difference to the pheasant population.,20,No,high,0,13,20,Yes

@@ -1,0 +1,15 @@
+exclude2,exclude4,acceptability,condition,exclude3,feedback,know,exclude1,rule,story,anon_workerid
+20,It will not make a difference to the rabbit population.,No,high,0, ,0,20,No,5,0
+20,It will not make a difference to the rabbit population.,No,high,0, ,0,20,No,5,1
+20,It will make the rabbit population more healthy.,Yes,high,7, nice and interesting,20,3,Yes,5,2
+20,It will not make a difference to the rabbit population.,Yes,high,0, ,0,2,No,5,3
+20,It will make the rabbit population less healthy.,Yes,high,3, ,7,7,No,5,4
+20,It will not make a difference to the rabbit population.,Yes,high,0, ,0,20,No,5,5
+20,It will not make a difference to the rabbit population.,Yes,high,0, ,0,20,No,5,6
+7,It will make the rabbit population more healthy.,No,high,3, ,20,20,Yes,5,7
+20,It will make the rabbit population less healthy.,Yes,high,3,GOOD,7,20,No,5,8
+20,It will not make a difference to the rabbit population.,No,high,0, ,0,20,No,5,9
+20,It will make the rabbit population more healthy.,Yes,high,3, Very dangerous thoughts on the catch the rabbits. ,7,7,Yes,5,10
+20,It will not make a difference to the rabbit population.,No,high,0, ,0,20,No,5,11
+20,It will make the rabbit population more healthy.,Yes,high,7,,20,20,No,5,12
+20,It will not make a difference to the rabbit population.,Yes,high,7, nice survey,7,y3,No,5,13

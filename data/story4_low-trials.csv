@@ -1,0 +1,15 @@
+condition,story,exclude1,feedback,acceptability,rule,exclude2,anon_workerid,exclude4,know,exclude3
+low,4,0, ,Yes,No,20,0,It will not make a difference to the mushroom population.,0,0
+low,4,19, ,Yes,No,20,1,It will not make a difference to the mushroom population.,0,0
+low,4,19, ,No,No,20,2,It will not make a difference to the mushroom population.,0,10
+low,4,20, ,Yes,No,20,3,It will make the mushroom population more healthy.,20,7
+low,4,0, ,Yes,No,20,4,It will not make a difference to the mushroom population.,20,0
+low,4,7, Nothing,No,Yes,20,5,It will not make a difference to the mushroom population.,7,0
+low,4,3, ,Yes,No,20,6,It will not make a difference to the mushroom population.,0,0
+low,4,7,Nothing,No,Yes,20,7,It will not make a difference to the mushroom population.,20,0
+low,4,3, ,Yes,No,20,8,It will not make a difference to the mushroom population.,20,7
+low,4,0, ,Yes,No,20,9,It will not make a difference to the mushroom population.,0,0
+low,4,0, ,Yes,No,20,10,It will not make a difference to the mushroom population.,0,0
+low,4,7, ,No,No,20,11,It will not make a difference to the mushroom population.,20,0
+low,4,7, ,Yes,No,20,12,It will not make a difference to the mushroom population.,0,3
+low,4,3, ,Yes,No,20,13,It will make the mushroom population less healthy.,20,7

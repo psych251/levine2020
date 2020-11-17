@@ -1,0 +1,15 @@
+rule,acceptability,know,story,exclude4,exclude3,feedback,anon_workerid,condition,exclude1,exclude2
+No,No,0,2,It will make the pheasant population less healthy.,0, none,0,low,0,20
+No,Yes,19,2,It will not make a difference to the pheasant population.,0, ,1,low,0,20
+No,No,0,2,It will not make a difference to the pheasant population.,0, ,2,low,0,20
+No,Yes,1,2,It will not make a difference to the pheasant population.,17, ,3,low,15,20
+No,Yes,0,2,It will not make a difference to the pheasant population.,0, ,4,low,3,20
+No,No,0,2,It will make the pheasant population less healthy.,10, ,5,low,20,20
+No,Yes,19,2,It will make the pheasant population less healthy.,7, ,6,low,7,20
+Yes,Yes,20,2,It will make the pheasant population less healthy.,3, ,7,low,7 and more,20
+Yes,Yes,MAN,2,It will make the pheasant population more healthy.,VERY NICE, nice study,8,low,MAN,MALE
+Yes,Yes,7,2,It will make the pheasant population more healthy.,3, ,9,low,20,7
+No,No,0,2,It will not make a difference to the pheasant population.,0, ,10,low,0,20
+No,No,0,2,It will not make a difference to the pheasant population.,0, ,11,low,0,20
+No,Yes,0,2,It will not make a difference to the pheasant population.,0, ,12,low,0,20
+No,Yes,10,2,It will make the pheasant population more healthy.,20,Good study,13,low,20,20
